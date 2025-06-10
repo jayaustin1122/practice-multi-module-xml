@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id ("kotlin-kapt")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -26,6 +28,24 @@ android {
             )
         }
     }
+
+    flavorDimensions += "version"
+    productFlavors {
+        create("app1") {
+            dimension = "version"
+            applicationId = "com.projects.practicemultimodulexml"
+            manifestPlaceholders["appName"] = "App1"
+            buildConfigField("String", "APP_THEME", "\"APP1\"")
+        }
+
+        create("app2") {
+            dimension = "version"
+            applicationId = "com.projects.app2"
+            manifestPlaceholders["appName"] = "App2"
+            buildConfigField("String", "APP_THEME", "\"APP2\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -35,6 +55,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -49,4 +70,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(project(":shared:core"))
+    implementation (project(":shared:ui"))
+    implementation (project(":shared:authsignin"))
+    implementation (project(":shared:authsignup"))
+
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
 }
