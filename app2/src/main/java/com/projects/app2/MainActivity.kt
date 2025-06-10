@@ -1,6 +1,7 @@
 package com.projects.app2
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,10 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAppTheme(): AppTheme {
-        return when (BuildConfig.APP_THEME) {
-            "APP1" -> AppTheme.APP1
-            "APP2" -> AppTheme.APP2
-            else -> AppTheme.APP1
-        }
+        // Force APP2 theme for this activity regardless of build flavor
+        Log.d("MainActivity", "Forcing APP2 theme for this activity")
+        return AppTheme.APP2
     }
 }
